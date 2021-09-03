@@ -1,29 +1,58 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { itemGetData, resetState } from "../../reducers/catalogItemSlice";
+import { itemGetData, resetItemState } from "../../reducers/catalogItemSlice";
+import { addToCart } from "../../reducers/cartSlice";
+import { useHistory } from "react-router-dom";
 import Preloader from "../Preloader";
 import noimage from "../../img/noimage.png";
 
 export default function ItemFull({ id }) {
   const [selectedSize, setSelectedSize] = useState(null);
+  const [quantity, setQuantity] = useState(1);
   const { data, status } = useSelector((state) => state.catalogItem);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(itemGetData(id));
     return () => {
-      dispatch(resetState());
+      dispatch(resetItemState());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleClick = (size) => {
+  const handleSize = (size) => {
     return () => {
       setSelectedSize(size);
     };
   };
 
-  console.log(data);
+  const handleQuantity = (operand) => {
+    return () => {
+      switch (operand) {
+        case '-':
+          setQuantity(prev => prev > 1 ? prev - 1 : 1);
+          break;
+        case '+':
+          setQuantity(prev => prev < 10 ? prev + 1 : 10);
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  const handleSubmit = () => {
+    const item = {
+      id: Number(id),
+      title: data.title,
+      price: Number(data.price),
+      size: selectedSize,
+      count: Number(quantity),
+    };
+    dispatch(addToCart(item));
+    history.push(process.env.REACT_APP_LINK_CART);
+  }
 
   if (status === "pending") {
     return (
@@ -90,7 +119,7 @@ export default function ItemFull({ id }) {
                           (selectedSize === item.size ? " selected" : "")
                         }
                         key={item.size}
-                        onClick={handleClick(item.size)}
+                        onClick={handleSize(item.size)}
                       >
                         {item.size}
                       </span>
@@ -100,9 +129,9 @@ export default function ItemFull({ id }) {
                   <p>
                     Количество:
                     <span className="btn-group btn-group-sm pl-2">
-                      <button className="btn btn-secondary">-</button>
-                      <span className="btn btn-outline-primary">1</span>
-                      <button className="btn btn-secondary">+</button>
+                      <button className="btn btn-secondary" onClick={handleQuantity('-')} disabled={quantity <= 1}>-</button>
+                      <span className="btn btn-outline-primary">{quantity}</span>
+                      <button className="btn btn-secondary" onClick={handleQuantity('+')} disabled={quantity >= 10}>+</button>
                     </span>
                   </p>
                 )}
@@ -110,6 +139,7 @@ export default function ItemFull({ id }) {
               {data.sizes.filter((size) => size.avalible).length !== 0 && (
                 <button
                   className="btn btn-danger btn-block btn-lg"
+                  onClick={handleSubmit}
                   disabled={!selectedSize}
                 >
                   В корзину

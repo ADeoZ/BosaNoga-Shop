@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   catalogGetAll,
-  resetState,
+  resetCatalogState,
 } from "../../../reducers/catalogSlice";
 import ItemCard from "../../ItemCard";
 import Preloader from "../../Preloader";
@@ -11,10 +11,10 @@ export default function CatalogView() {
   const { items, showMore, status } = useSelector((state) => state.catalog);
   const dispatch = useDispatch();
 
-  useEffect(() => {    
+  useEffect(() => {
     dispatch(catalogGetAll());
     return () => {
-      dispatch(resetState());
+      dispatch(resetCatalogState());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

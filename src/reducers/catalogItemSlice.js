@@ -15,7 +15,7 @@ const catalogItemSlice = createSlice({
   name: "catalogItem",
   initialState,
   reducers: {
-    resetState: () => initialState,
+    resetItemState: () => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -32,5 +32,5 @@ const catalogItemSlice = createSlice({
   },
 });
 
-export const { resetState } = catalogItemSlice.actions;
+export const { resetItemState } = catalogItemSlice.actions;
 export default catalogItemSlice.reducer;

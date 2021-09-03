@@ -47,7 +47,7 @@ const catalogSlice = createSlice({
   name: "catalog",
   initialState,
   reducers: {
-    resetState: () => initialState,
+    resetCatalogState: () => initialState,
     selectCategory: (state, action) => {
       state.items = [];
       state.showMore = true;
@@ -82,5 +82,5 @@ const catalogSlice = createSlice({
   },
 });
 
-export const { resetState, selectCategory, putSearch } = catalogSlice.actions;
+export const { resetCatalogState, selectCategory, putSearch } = catalogSlice.actions;
 export default catalogSlice.reducer;

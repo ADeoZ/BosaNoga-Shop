@@ -7,6 +7,7 @@ import CatalogId from "./pages/CatalogId";
 import About from "./pages/About";
 import Contacts from "./pages/Contacts";
 import Page404 from "./pages/Page404";
+import Cart from "./pages/Cart"
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route exact path={`${process.env.REACT_APP_LINK_CATALOG_ID}:id.html`} component={CatalogId} />
         <Route exact path={process.env.REACT_APP_LINK_ABOUT} component={About} />
         <Route exact path={process.env.REACT_APP_LINK_CONTACTS} component={Contacts} />
+        <Route exact path={process.env.REACT_APP_LINK_CART} component={Cart} />
         <Route component={Page404} />
       </Switch>
     </Router>

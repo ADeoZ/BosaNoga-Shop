@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import noimage from "../../img/noimage.png";
 
 export default function ItemCard({ data, catalog = false }) {
@@ -14,12 +15,12 @@ export default function ItemCard({ data, catalog = false }) {
       <div className="card-body">
         <p className="card-text">{data.title}</p>
         <p className="card-text">{data.price.toLocaleString()} руб.</p>
-        <a
-          href={`${process.env.REACT_APP_LINK_CATALOG_ID}${data.id}.html`}
+        <Link
+          to={`${process.env.REACT_APP_LINK_CATALOG_ID}${data.id}.html`}
           className="btn btn-outline-primary"
         >
           Заказать
-        </a>
+        </Link>
       </div>
     </div>
   );
