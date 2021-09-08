@@ -2,20 +2,26 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   catalogGetAll,
+  putSearch,
   resetCatalogState,
 } from "../../../reducers/catalogSlice";
-import ItemCard from "../../ItemCard";
+import ErrorLabel from "../../ErrorLabel";
 import Preloader from "../../Preloader";
+import ItemCard from "../../ItemCard";
+import { resetSearchFormState } from "../../../reducers/searchFormSlice";
 
 export default function CatalogView() {
   const { items, showMore, status } = useSelector((state) => state.catalog);
+  const { searchFormQ } = useSelector((state) => state.searchForm);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(catalogGetAll());
-    return () => {
-      dispatch(resetCatalogState());
+    if (searchFormQ !== "") {
+      dispatch(putSearch(searchFormQ));
+      dispatch(resetSearchFormState());
     }
+    dispatch(catalogGetAll());
+    return () => dispatch(resetCatalogState());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -23,27 +29,43 @@ export default function CatalogView() {
     dispatch(catalogGetAll(true));
   };
 
-  if (status === "pending") {
+  if (status.catalog === "pending") {
     return <Preloader />;
+  }
+
+  if (status.catalog === "error") {
+    return <ErrorLabel handleError={() => dispatch(catalogGetAll())} />;
   }
 
   return (
     <>
       <div className="row">
-        {items.map((item) => (
-          <div className="col-4" key={item.id}>
-            <ItemCard data={item} catalog />
+        {items.length > 0 ? (
+          items.map((item) => (
+            <div className="col-4" key={item.id}>
+              <ItemCard data={item} catalog />
+            </div>
+          ))
+        ) : (
+          <div className="card w-100 text-center">
+            <div className="card-body">В этой категории нет товаров.</div>
           </div>
-        ))}
+        )}
       </div>
       {showMore &&
-        ((status === "pendingOffset" && <Preloader />) || (
-          <div className="text-center">
-            <button className="btn btn-outline-primary" onClick={handleOffset}>
-              Загрузить ещё
-            </button>
-          </div>
-        ))}
+        ((status.offset === "error" && (
+          <ErrorLabel handleError={() => dispatch(catalogGetAll(true))} />
+        )) ||
+          (status.offset === "pending" && <Preloader />) || (
+            <div className="text-center">
+              <button
+                className="btn btn-outline-primary"
+                onClick={handleOffset}
+              >
+                Загрузить ещё
+              </button>
+            </div>
+          ))}
     </>
   );
 }

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import { itemGetData, resetItemState } from "../../reducers/catalogItemSlice";
 import { addToCart } from "../../reducers/cartSlice";
 import { useHistory } from "react-router-dom";
 import Preloader from "../Preloader";
+import ErrorLabel from "../ErrorLabel";
 import noimage from "../../img/noimage.png";
 
 export default function ItemFull({ id }) {
@@ -30,17 +32,17 @@ export default function ItemFull({ id }) {
   const handleQuantity = (operand) => {
     return () => {
       switch (operand) {
-        case '-':
-          setQuantity(prev => prev > 1 ? prev - 1 : 1);
+        case "-":
+          setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
           break;
-        case '+':
-          setQuantity(prev => prev < 10 ? prev + 1 : 10);
+        case "+":
+          setQuantity((prev) => (prev < 10 ? prev + 1 : 10));
           break;
         default:
           break;
       }
-    }
-  }
+    };
+  };
 
   const handleSubmit = () => {
     const item = {
@@ -52,13 +54,21 @@ export default function ItemFull({ id }) {
     };
     dispatch(addToCart(item));
     history.push(process.env.REACT_APP_LINK_CART);
-  }
+  };
 
   if (status === "pending") {
     return (
       <section className="catalog-item">
         <h2 className="text-center">Загрузка...</h2>
         <Preloader />
+      </section>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <section className="catalog-item">
+        <ErrorLabel handleError={() => dispatch(itemGetData(id))} />
       </section>
     );
   }
@@ -129,9 +139,23 @@ export default function ItemFull({ id }) {
                   <p>
                     Количество:
                     <span className="btn-group btn-group-sm pl-2">
-                      <button className="btn btn-secondary" onClick={handleQuantity('-')} disabled={quantity <= 1}>-</button>
-                      <span className="btn btn-outline-primary">{quantity}</span>
-                      <button className="btn btn-secondary" onClick={handleQuantity('+')} disabled={quantity >= 10}>+</button>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={handleQuantity("-")}
+                        disabled={quantity <= 1}
+                      >
+                        -
+                      </button>
+                      <span className="btn btn-outline-primary">
+                        {quantity}
+                      </span>
+                      <button
+                        className="btn btn-secondary"
+                        onClick={handleQuantity("+")}
+                        disabled={quantity >= 10}
+                      >
+                        +
+                      </button>
                     </span>
                   </p>
                 )}
@@ -152,3 +176,7 @@ export default function ItemFull({ id }) {
     </>
   );
 }
+
+ItemFull.propTypes = {
+  id: PropTypes.number.isRequired,
+};

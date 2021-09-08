@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { catalogGetAll, selectCategory } from "../../../../reducers/catalogSlice";
+import PropTypes from "prop-types";
+import {
+  catalogGetAll,
+  selectCategory,
+} from "../../../../reducers/catalogSlice";
 
 export default function CatalogCategoryItem({ data }) {
   const { categoryId } = useSelector((state) => state.catalog);
@@ -25,3 +29,10 @@ export default function CatalogCategoryItem({ data }) {
     </li>
   );
 }
+
+CatalogCategoryItem.propTypes = {
+  data: PropTypes.shape({
+    title: PropTypes.string,
+    id: PropTypes.number,
+  }).isRequired,
+};

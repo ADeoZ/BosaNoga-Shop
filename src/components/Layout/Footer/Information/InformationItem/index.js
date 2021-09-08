@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export default function InformationItem({ data }) {
   return (
@@ -9,3 +10,10 @@ export default function InformationItem({ data }) {
     </li>
   );
 }
+
+InformationItem.propTypes = {
+  data: PropTypes.shape({
+    path: PropTypes.string,
+    title: PropTypes.string,
+  }).isRequired,
+};

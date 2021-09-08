@@ -2,7 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { catalogGetAll, putSearch } from "../../../../../reducers/catalogSlice";
-import { setOpen } from "../../../../../reducers/searchFormSlice";
+import {
+  resetSearchFormState,
+  setOpen,
+  setSearchFormQuery,
+} from "../../../../../reducers/searchFormSlice";
 
 export default function SearchForm() {
   const [search, setSearch] = useState("");
@@ -19,15 +23,18 @@ export default function SearchForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (search === '') {
+    if (search === "") {
       dispatch(setOpen());
-    } else {      
-      dispatch(putSearch(search));
-      dispatch(setOpen());
+    } else {
       if (history.location.pathname === process.env.REACT_APP_LINK_CATALOG) {
+        dispatch(putSearch(search));
         dispatch(catalogGetAll());
-    }
-      history.push(process.env.REACT_APP_LINK_CATALOG);
+        dispatch(resetSearchFormState());
+      } else {
+        dispatch(setSearchFormQuery(search));
+        history.push(process.env.REACT_APP_LINK_CATALOG);
+      }
+      setSearch("");
     }
   };
 

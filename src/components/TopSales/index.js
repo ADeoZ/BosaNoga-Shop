@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { topSalesGetAll } from "../../reducers/topSalesSlice";
 import Preloader from "../Preloader";
+import ErrorLabel from "../ErrorLabel";
 import ItemCard from "../ItemCard";
 
 export default function TopSales() {
@@ -18,6 +19,15 @@ export default function TopSales() {
       <section className="top-sales">
         <h2 className="text-center">Хиты продаж!</h2>
         <Preloader />
+      </section>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <section className="top-sales">
+        <h2 className="text-center">Хиты продаж!</h2>
+        <ErrorLabel handleError={() => dispatch(topSalesGetAll())} />
       </section>
     );
   }

@@ -6,7 +6,7 @@ const initialState = {
   categoryId: 0,
   showMore: true,
   searchQ: "",
-  status: "idle",
+  status: { catalog: "idle", offset: "idle", categories: "idle" },
 };
 
 export const catalogGetAll = createAsyncThunk(
@@ -27,7 +27,7 @@ export const catalogGetAll = createAsyncThunk(
   {
     condition: (_, { getState }) => {
       const { status } = getState().catalog;
-      if (status === 'pending') {
+      if (status.catalog === "pending" || status.offset === "pending") {
         return false;
       }
     },
@@ -47,7 +47,9 @@ const catalogSlice = createSlice({
   name: "catalog",
   initialState,
   reducers: {
-    resetCatalogState: () => initialState,
+    resetCatalogState: (state) => {
+      return initialState
+    },
     selectCategory: (state, action) => {
       state.items = [];
       state.showMore = true;
@@ -63,24 +65,41 @@ const catalogSlice = createSlice({
     builder
       .addCase(catalogGetAll.pending, (state, { meta }) => {
         if (meta.arg) {
-          state.status = "pendingOffset";
+          state.status.offset = "pending";
         } else {
-          state.status = "pending";
+          state.status.catalog = "pending";
         }
       })
-      .addCase(catalogGetAll.rejected, (state) => {
-        state.status = "error";
+      .addCase(catalogGetAll.rejected, (state, { meta }) => {
+        if (meta.arg) {
+          state.status.offset = "error";
+        } else {
+          state.status.catalog = "error";
+        }
       })
       .addCase(catalogGetAll.fulfilled, (state, action) => {
-        state.status = "success";
-        state.items.push(...action.payload);
+        if (action.meta.arg) {
+          state.status.offset = "success";
+          state.items.push(...action.payload);
+        } else {
+          state.status.catalog = "success";
+          state.items = action.payload;
+        }
         if (action.payload.length !== 6) state.showMore = false;
       })
+      .addCase(catalogGetCategories.pending, (state) => {
+        state.status.categories = "pending";
+      })
+      .addCase(catalogGetCategories.rejected, (state) => {
+        state.status.categories = "error";
+      })
       .addCase(catalogGetCategories.fulfilled, (state, action) => {
+        state.status.categories = "success";
         state.categories = action.payload;
       });
   },
 });
 
-export const { resetCatalogState, selectCategory, putSearch } = catalogSlice.actions;
+export const { resetCatalogState, selectCategory, putSearch } =
+  catalogSlice.actions;
 export default catalogSlice.reducer;

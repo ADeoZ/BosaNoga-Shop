@@ -1,4 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
+import {
+  saveToLocalStorage,
+  loadFromLocalStorage,
+} from "./localStorageWorkers";
 import topSales from "../reducers/topSalesSlice";
 import catalog from "../reducers/catalogSlice";
 import searchForm from "../reducers/searchFormSlice";
@@ -13,4 +17,9 @@ export const store = configureStore({
     catalogItem,
     cart,
   },
+  preloadedState: { cart: loadFromLocalStorage("cart") },
+});
+
+store.subscribe(() => {
+  saveToLocalStorage("cart", store.getState().cart);
 });

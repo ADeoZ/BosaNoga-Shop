@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 export default function ContactsItem(props) {
   return (
     <>
@@ -16,3 +18,8 @@ export default function ContactsItem(props) {
     </>
   );
 }
+
+ContactsItem.propTypes = {
+  link: PropTypes.string,
+  classNameType: PropTypes.string.isRequired,
+};

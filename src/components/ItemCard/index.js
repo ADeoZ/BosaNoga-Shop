@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import noimage from "../../img/noimage.png";
 
-export default function ItemCard({ data, catalog = false }) {
+export default function ItemCard({ data, catalog }) {
   return (
     <div className={catalog ? "card catalog-item-card" : "card"}>
       <div className="card-img-container">
@@ -25,3 +26,17 @@ export default function ItemCard({ data, catalog = false }) {
     </div>
   );
 }
+
+ItemCard.propTypes = {
+  data: PropTypes.shape({
+    images: PropTypes.arrayOf(PropTypes.string),
+    title: PropTypes.string,
+    price: PropTypes.number,
+    id: PropTypes.number,
+  }).isRequired,
+  catalog: PropTypes.bool,
+};
+
+ItemCard.defaultProps = {
+  catalog: false,
+};
