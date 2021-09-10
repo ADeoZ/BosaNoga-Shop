@@ -40,13 +40,13 @@ export default function CatalogView() {
   return (
     <>
       <div className="row">
-        {items.length > 0 ? (
+        {items.length > 0 &&
           items.map((item) => (
             <div className="col-4" key={item.id}>
               <ItemCard data={item} catalog />
             </div>
-          ))
-        ) : (
+          ))}
+        {status.catalog !== "pending" && !items.length && (
           <div className="card w-100 text-center">
             <div className="card-body">В этой категории нет товаров.</div>
           </div>

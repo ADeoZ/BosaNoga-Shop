@@ -12,7 +12,7 @@ export default function CatalogCategoryItem({ data }) {
 
   const handleClick = () => {
     dispatch(selectCategory(data.id));
-    dispatch(catalogGetAll(data.id));
+    dispatch(catalogGetAll());
   };
 
   return (
