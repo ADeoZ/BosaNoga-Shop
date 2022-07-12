@@ -2,11 +2,11 @@
 
 ## DEMO
 
-https://adeoz.github.io/react-diploma/
+https://adeoz.github.io/BosaNoga-Shop/
 
 ## Backend Emulation
 
-https://github.com/ADeoZ/BosaNoga-Shop-backend
+https://github.com/ADeoZ/BosaNoga-Shop-backend  
 Заложена эмуляция задержки ответа и генерация ошибок
 
 ## Используемые технологии
