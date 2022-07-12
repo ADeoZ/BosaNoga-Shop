@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/BosaNoga-Shop/static/css/main.4db9801c.chunk.css",
-    "main.js": "/BosaNoga-Shop/static/js/main.dd8064c6.chunk.js",
-    "main.js.map": "/BosaNoga-Shop/static/js/main.dd8064c6.chunk.js.map",
+    "main.css": "/BosaNoga-Shop/static/css/main.043b2565.chunk.css",
+    "main.js": "/BosaNoga-Shop/static/js/main.bd3da129.chunk.js",
+    "main.js.map": "/BosaNoga-Shop/static/js/main.bd3da129.chunk.js.map",
     "runtime-main.js": "/BosaNoga-Shop/static/js/runtime-main.84d0cb65.js",
     "runtime-main.js.map": "/BosaNoga-Shop/static/js/runtime-main.84d0cb65.js.map",
     "static/js/2.99eff49d.chunk.js": "/BosaNoga-Shop/static/js/2.99eff49d.chunk.js",
     "static/js/2.99eff49d.chunk.js.map": "/BosaNoga-Shop/static/js/2.99eff49d.chunk.js.map",
     "index.html": "/BosaNoga-Shop/index.html",
-    "static/css/main.4db9801c.chunk.css.map": "/BosaNoga-Shop/static/css/main.4db9801c.chunk.css.map",
+    "static/css/main.043b2565.chunk.css.map": "/BosaNoga-Shop/static/css/main.043b2565.chunk.css.map",
     "static/js/2.99eff49d.chunk.js.LICENSE.txt": "/BosaNoga-Shop/static/js/2.99eff49d.chunk.js.LICENSE.txt",
     "static/media/banner.5fd2c60d.jpg": "/BosaNoga-Shop/static/media/banner.5fd2c60d.jpg",
     "static/media/index.css": "/BosaNoga-Shop/static/media/footer-sprite.b3d5697a.png"
@@ -16,7 +16,7 @@
   "entrypoints": [
     "static/js/runtime-main.84d0cb65.js",
     "static/js/2.99eff49d.chunk.js",
-    "static/css/main.4db9801c.chunk.css",
-    "static/js/main.dd8064c6.chunk.js"
+    "static/css/main.043b2565.chunk.css",
+    "static/js/main.bd3da129.chunk.js"
   ]
 }
