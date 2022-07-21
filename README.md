@@ -12,10 +12,8 @@ https://github.com/ADeoZ/BosaNoga-Shop-backend
 ## Используемые технологии
 
 * React
+* Redux Toolkit
 * React Router
-* React Toolkit
-* Redux
-* Redux Thunk
 * Node.js (Backend Emulation)
 
 ## Описание
